@@ -51,4 +51,11 @@ public class Musica {
     public void setArtista(Artista artista) {
         this.artista = artista;
     }
+
+    @Override
+    public String toString() {
+        return "artista: " + artista.getNome() +
+                "\nMusica: " + nome + " | " +
+                "album: " + album;
+    }
 }

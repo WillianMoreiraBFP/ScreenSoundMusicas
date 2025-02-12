@@ -18,8 +18,8 @@ public class Principal {
     public Principal(ArtistaRepository repository) {this.repository = repository;}
 
     public void exibeMenu() {
-        var opcao = -1;
-        while (opcao!= 9){
+        var opcao = "-1";
+        while (!opcao.equals("9")){
             var menu = """
                     1- Cadastrar artistas
                                         
@@ -33,24 +33,23 @@ public class Principal {
                     """;
 
             System.out.println(menu);
-            opcao = leitura.nextInt();
-            leitura.nextLine();
+            opcao = leitura.nextLine();
 
             switch (opcao){
-                case 1:
+                case "1":
                     cadastraArtista();
                     break;
-                case 2:
+                case "2":
                     listarArtistas();
                     cadastraMusica();
                     break;
-                case 3:
-                    //listarMusica();
+                case "3":
+                    listarMusica();
                     break;
-                case 4:
-                    //buscarMusicaArtista();
+                case "4":
+                    buscarMusicaArtista();
                     break;
-                case 9:
+                case "9":
                     System.out.println("Saindo...");
                     break;
                 default:
@@ -108,6 +107,16 @@ public class Principal {
         artista.setMusica(musica);
         repository.save(artista);
 
+    }
+
+    private void listarMusica() {
+        repository.listarMusicas().forEach(System.out::println);
+    }
+
+    private void buscarMusicaArtista() {
+        listarArtistas();
+        definirArtista();
+        repository.listarMusicasPorAtista(artista).forEach(System.out::println);
     }
 
     private void definirArtista(){
