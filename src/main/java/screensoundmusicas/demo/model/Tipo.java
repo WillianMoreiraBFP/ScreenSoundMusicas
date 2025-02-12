@@ -1,9 +1,9 @@
 package screensoundmusicas.demo.model;
 
 public enum Tipo {
-    SOLO("Solo"),
-    DUPLA("Dupla"),
-    BANDA("Banda");
+    SOLO("solo"),
+    DUPLA("dupla"),
+    BANDA("banda");
 
     private String categoria;
 
