@@ -1,6 +1,7 @@
 package screensoundmusicas.demo.principal;
 
 import screensoundmusicas.demo.model.Artista;
+import screensoundmusicas.demo.model.Musica;
 import screensoundmusicas.demo.model.Tipo;
 import screensoundmusicas.demo.repository.ArtistaRepository;
 
@@ -12,6 +13,7 @@ public class Principal {
     private ArtistaRepository repository;
     private Scanner leitura = new Scanner(System.in);
     private List<Artista> artistas = new ArrayList<>();
+    Artista artista = new Artista();
 
     public Principal(ArtistaRepository repository) {this.repository = repository;}
 
@@ -32,19 +34,21 @@ public class Principal {
 
             System.out.println(menu);
             opcao = leitura.nextInt();
+            leitura.nextLine();
 
             switch (opcao){
                 case 1:
                     cadastraArtista();
                     break;
                 case 2:
-
+                    listarArtistas();
+                    cadastraMusica();
                     break;
                 case 3:
-
+                    //listarMusica();
                     break;
                 case 4:
-
+                    //buscarMusicaArtista();
                     break;
                 case 9:
                     System.out.println("Saindo...");
@@ -58,7 +62,6 @@ public class Principal {
     }
 
     private void cadastraArtista() {
-        leitura.nextLine();
         System.out.println("Informe o nome desse artista:");
         var nome = leitura.nextLine();
 
@@ -83,12 +86,47 @@ public class Principal {
             }
         }
 
-        Artista artista = new Artista(nome, tipo);
+        artista.setNome(nome);
+        artista.setTipo(tipo);
         repository.save(artista);
 
         System.out.println("*** Screen Sound Músicas ***");
     }
 
+    private void cadastraMusica() {
 
+        System.out.println("Informe o nome do artista dono da musica:");
+        definirArtista();
 
+        System.out.println("Informe o nome da musica:");
+        var nomeMusica = leitura.nextLine();
+        System.out.println("Informe o nome do álbum:");
+        var nomeAlbum = leitura.nextLine();
+
+        Musica musica = new Musica(nomeMusica,nomeAlbum);
+
+        artista.setMusica(musica);
+        repository.save(artista);
+
+    }
+
+    private void definirArtista(){
+        var nomeArtista = leitura.nextLine();
+        if (artistas.stream().anyMatch(a -> a.getNome().equalsIgnoreCase(nomeArtista))) {
+            artista = repository.encontraArtista(nomeArtista);
+
+        } else {
+            System.out.println("Artista não encontrado");
+        }
+    }
+
+    private void listarArtistas() {
+//        artistas = repository.findAll();
+//        artistas.stream()
+//                        .sorted(Comparator.comparing(Artista::getNome))
+//                        .forEach(System.out::println);
+
+        artistas = repository.listarArtistas();
+        artistas.forEach(System.out::println);
+    }
 }

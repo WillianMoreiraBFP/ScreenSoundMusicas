@@ -3,6 +3,7 @@ package screensoundmusicas.demo.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,7 +17,7 @@ public class Artista {
     @Enumerated(EnumType.STRING)
     private Tipo tipo;
     @OneToMany(mappedBy = "artista", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<Musica> musicas;
+    private List<Musica> musicas = new ArrayList<>();
 
 
     public Artista() {}
@@ -24,6 +25,11 @@ public class Artista {
     public Artista(String nome, Tipo tipo) {
         this.nome = nome;
         this.tipo = tipo;
+    }
+
+    public void setMusica(Musica musica){
+    musica.setArtista(this);
+    musicas.add(musica);
     }
 
     public Long getId() {
@@ -56,5 +62,12 @@ public class Artista {
 
     public void setMusicas(List<Musica> musicas) {
         this.musicas = musicas;
+    }
+
+
+    @Override
+    public String toString() {
+        return"Artista(s): " + nome +
+                " | tipo: " + tipo;
     }
 }
